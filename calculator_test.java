@@ -159,9 +159,9 @@ public class CalculatorTest {
         System.out.println("Test Results: " + testsPassed + "/" + totalTests + " tests passed");
         
         if (testsPassed == totalTests) {
-            System.out.println("🎉 All tests passed!");
+            System.out.println("All tests passed!");
         } else {
-            System.out.println("❌ Some tests failed!");
+            System.out.println("Some tests failed!");
             System.exit(1); // Exit with error code for CI/CD
         }
     }
