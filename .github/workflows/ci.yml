@@ -1,0 +1,124 @@
+name: CI/CD Pipeline
+
+# Trigger the workflow on push and pull requests to main branch
+on:
+  push:
+    branches: [ main, master ]
+  pull_request:
+    branches: [ main, master ]
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    
+    strategy:
+      matrix:
+        # Test against multiple Java versions
+        java-version: [11, 17, 21]
+    
+    steps:
+    # Checkout the repository code
+    - name: Checkout code
+      uses: actions/checkout@v4
+    
+    # Set up JDK
+    - name: Set up JDK ${{ matrix.java-version }}
+      uses: actions/setup-java@v4
+      with:
+        java-version: ${{ matrix.java-version }}
+        distribution: 'temurin'
+    
+    # Display Java version for debugging
+    - name: Display Java version
+      run: java -version
+    
+    # Compile the Java files
+    - name: Compile Java files
+      run: |
+        echo "Compiling Java files..."
+        javac *.java
+        echo "Compilation successful!"
+    
+    # Run the tests
+    - name: Run tests
+      run: |
+        echo "Running tests..."
+        java CalculatorTest
+        echo "Tests completed successfully!"
+    
+    # Clean up compiled files
+    - name: Clean up
+      run: |
+        echo "Cleaning up compiled files..."
+        rm -f *.class
+        echo "Cleanup completed!"
+
+  # Job to run tests on Windows as well
+  test-windows:
+    runs-on: windows-latest
+    
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+    
+    - name: Set up JDK 17
+      uses: actions/setup-java@v4
+      with:
+        java-version: 17
+        distribution: 'temurin'
+    
+    - name: Display Java version
+      run: java -version
+    
+    - name: Compile Java files
+      run: |
+        echo "Compiling Java files..."
+        javac *.java
+        echo "Compilation successful!"
+    
+    - name: Run tests
+      run: |
+        echo "Running tests..."
+        java CalculatorTest
+        echo "Tests completed successfully!"
+    
+    - name: Clean up
+      run: |
+        echo "Cleaning up compiled files..."
+        del *.class
+        echo "Cleanup completed!"
+
+  # Job to run tests on macOS
+  test-macos:
+    runs-on: macos-latest
+    
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+    
+    - name: Set up JDK 17
+      uses: actions/setup-java@v4
+      with:
+        java-version: 17
+        distribution: 'temurin'
+    
+    - name: Display Java version
+      run: java -version
+    
+    - name: Compile Java files
+      run: |
+        echo "Compiling Java files..."
+        javac *.java
+        echo "Compilation successful!"
+    
+    - name: Run tests
+      run: |
+        echo "Running tests..."
+        java CalculatorTest
+        echo "Tests completed successfully!"
+    
+    - name: Clean up
+      run: |
+        echo "Cleaning up compiled files..."
+        rm -f *.class
+        echo "Cleanup completed!"
