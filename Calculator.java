@@ -35,3 +35,4 @@ public class Calculator {
         return (number * percent) / 100.0;
     }
 }
+
